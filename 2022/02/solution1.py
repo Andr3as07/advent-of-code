@@ -1,39 +1,23 @@
-def get_reward(opponent: str, me: str):
-    if opponent == 'A':
-        if me == 'X':
-            return 3
-        elif me == 'Y':
-            return 6
-        elif me == 'Z':
-            return 0
-        assert False, "unreachable"
-    elif opponent == 'B':
-        if me == 'X':
-            return 0
-        elif me == 'Y':
-            return 3
-        elif me == 'Z':
-            return 6
-        assert False, "unreachable"
-    elif opponent == 'C':
-        if me == 'X':
-            return 6
-        elif me == 'Y':
-            return 0
-        elif me == 'Z':
-            return 3
-        assert False, "unreachable"
-    assert False, "unreachable"
+translation = {'A': 'R', 'B': 'P', 'C': 'S',
+               'X': 'R', 'Y': 'P', 'Z': 'S'}
+win = {'R': 'S', 'P': 'R', 'S': 'P'}
+points = {'R': 1, 'P': 2, 'S': 3}
 
 
 def main(f):
-    points = {'X': 1, 'Y': 2, 'Z': 3}
     total = 0
     for line in f.readlines():
         opponent, me = line.strip().split(' ')
-        result = get_reward(opponent, me)
-        score = points[me] + result
-        total += score
+        opponent = translation[opponent]
+        me = translation[me]
+
+        # Calculate points
+        result = 0
+        if opponent == me:
+            result = 3
+        elif win[opponent] != me:
+            result = 6
+        total += points[me] + result
     print(total)
 
 

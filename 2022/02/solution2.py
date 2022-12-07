@@ -1,64 +1,28 @@
-def get_reward(opponent: str, me: str):
-    if opponent == 'A':
-        if me == 'X':
-            return 3
-        elif me == 'Y':
-            return 6
-        elif me == 'Z':
-            return 0
-        assert False, "unreachable"
-    elif opponent == 'B':
-        if me == 'X':
-            return 0
-        elif me == 'Y':
-            return 3
-        elif me == 'Z':
-            return 6
-        assert False, "unreachable"
-    elif opponent == 'C':
-        if me == 'X':
-            return 6
-        elif me == 'Y':
-            return 0
-        elif me == 'Z':
-            return 3
-        assert False, "unreachable"
-    assert False, "unreachable"
-
-
-def play(opponent: str, outcome: str):
-    if opponent == 'A':
-        if outcome == 'X':
-            return 'Z'
-        elif outcome == 'Y':
-            return 'X'
-        elif outcome == 'Z':
-            return 'Y'
-    elif opponent == 'B':
-        if outcome == 'X':
-            return 'X'
-        elif outcome == 'Y':
-            return 'Y'
-        elif outcome == 'Z':
-            return 'Z'
-    elif opponent == 'C':
-        if outcome == 'X':
-            return 'Y'
-        elif outcome == 'Y':
-            return 'Z'
-        elif outcome == 'Z':
-            return 'X'
+translation = {'A': 'R', 'B': 'P', 'C': 'S'}
+win = {'R': 'S', 'P': 'R', 'S': 'P'}
+lose = {'R': 'P', 'P': 'S', 'S': 'R'}
+points = {'R': 1, 'P': 2, 'S': 3}
 
 
 def main(f):
-    points = {'X': 1, 'Y': 2, 'Z': 3}
     total = 0
     for line in f.readlines():
         opponent, outcome = line.strip().split(' ')
-        me = play(opponent, outcome)
-        result = get_reward(opponent, me)
-        score = points[me] + result
-        total += score
+        opponent = translation[opponent]
+        if outcome == 'X':
+            me = win[opponent]
+        elif outcome == 'Y':
+            me = opponent
+        elif outcome == 'Z':
+            me = lose[opponent]
+
+        # Calculate points
+        result = 0
+        if opponent == me:
+            result = 3
+        elif win[opponent] != me:
+            result = 6
+        total += points[me] + result
     print(total)
 
 
