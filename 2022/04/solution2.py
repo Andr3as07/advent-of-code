@@ -1,4 +1,4 @@
-def contains(a, b):
+def overlaps(a, b):
     al = int(a[0])
     ah = int(a[1])
     bl = int(b[0])
@@ -16,7 +16,7 @@ def main(f):
         parts = line.split(',')
         a = parts[0].split('-')
         b = parts[1].split('-')
-        if contains(a, b):
+        if overlaps(a, b):
             counter += 1
     print(counter)
 
